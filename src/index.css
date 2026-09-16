@@ -168,13 +168,14 @@ img { max-width: 100%; }
 .photo-frame::after { content: ''; position: absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--border); pointer-events: none; }
 .photo-frame::before {
   content: ''; position: absolute; inset: -7px; border-radius: 50%; border: 2px solid rgba(var(--accent-rgb), 0.55);
-  pointer-events: none; animation: photoPulse 3.2s ease-in-out infinite;
+  box-shadow: 0 0 26px 6px rgba(var(--accent-rgb), 0.45);
+  pointer-events: none; animation: photoPulse 3.2s ease-in-out infinite; will-change: transform, opacity;
 }
 @keyframes photoPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.35); opacity: 0.85; }
-  50% { box-shadow: 0 0 26px 6px rgba(var(--accent-rgb), 0.45); opacity: 1; }
+  0%, 100% { transform: scale(0.94); opacity: 0.55; }
+  50% { transform: scale(1.04); opacity: 1; }
 }
-@media (prefers-reduced-motion: reduce) { .photo-frame::before { animation: none; box-shadow: 0 0 14px 2px rgba(var(--accent-rgb), 0.4); } }
+@media (prefers-reduced-motion: reduce) { .photo-frame::before { animation: none; transform: none; opacity: 0.85; } }
 
 /* ---------- Section shell ---------- */
 section { padding: 64px 0; border-top: 1px solid var(--border); }
@@ -317,7 +318,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 /* ---------- Aurora background ---------- */
 .aurora { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: -3; }
 .aurora-layer { position: absolute; inset: 0; will-change: transform; }
-.aurora-blob { position: absolute; border-radius: 50%; filter: blur(70px); }
+.aurora-blob { position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
 .aurora-blob.b1 { width: 52vw; height: 52vw; top: -14vw; left: -10vw; background: radial-gradient(circle, rgba(var(--accent-rgb), 0.5), transparent 70%); opacity: 0.28; animation: auroraDrift1 32s ease-in-out infinite alternate; }
 .aurora-blob.b2 { width: 44vw; height: 44vw; bottom: -16vw; right: -8vw; background: radial-gradient(circle, rgba(var(--accent-2-rgb), 0.5), transparent 70%); opacity: 0.24; animation: auroraDrift2 38s ease-in-out infinite alternate; }
 .aurora-blob.b3 { width: 34vw; height: 34vw; top: 38%; left: 55%; background: radial-gradient(circle, rgba(var(--accent-rgb), 0.4), transparent 70%); opacity: 0.16; animation: auroraDrift3 44s ease-in-out infinite alternate; }
@@ -325,6 +326,11 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 @keyframes auroraDrift2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-7vw, -6vw) scale(1.08); } }
 @keyframes auroraDrift3 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-5vw, 7vw) scale(1.15); } }
 @media (prefers-reduced-motion: reduce) { .aurora-blob { animation: none !important; } }
+/* fewer, smaller, less-blurred blobs on phones/tablets and coarse-pointer (typically lower-power) devices */
+@media (max-width: 768px), (pointer: coarse) {
+  .aurora-blob.b2, .aurora-blob.b3 { display: none; }
+  .aurora-blob.b1 { width: 70vw; height: 70vw; filter: blur(46px); }
+}
 
 .noise-overlay {
   position: fixed; inset: 0; pointer-events: none; z-index: -2;
@@ -344,12 +350,19 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 @keyframes floatDrift2 { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-14px, 12px) rotate(5deg); } }
 @keyframes floatDrift3 { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(12px, 14px) rotate(-3deg); } }
 @media (prefers-reduced-motion: reduce) { .float-shape { animation: none !important; } }
+@media (max-width: 768px), (pointer: coarse) {
+  .float-shape.fs3, .float-shape.fs4, .float-shape.fs5 { display: none; }
+}
 
-.scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; z-index: 70; background: linear-gradient(90deg, var(--accent), var(--accent-2)); pointer-events: none; }
+.scroll-progress {
+  position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 70;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2)); pointer-events: none;
+  transform: scaleX(0); transform-origin: left; will-change: transform;
+}
 
 /* ---------- Custom cursor ---------- */
 html.custom-cursor, html.custom-cursor * { cursor: none !important; }
-.cursor { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; transform: translate(-50%, -50%); display: none; }
+.cursor { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; transform: translate3d(-50%, -50%, 0); display: none; will-change: transform; }
 html.custom-cursor .cursor { display: block; }
 .cursor-glow { position: absolute; top: 50%; left: 50%; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%; background: radial-gradient(circle, rgba(var(--accent-rgb), 0.55), transparent 72%); filter: blur(5px); opacity: 0.85; }
 .cursor-core {
@@ -368,8 +381,8 @@ html.custom-cursor .cursor { display: block; }
 .cursor.is-text .cursor-glow { opacity: 0; }
 @keyframes caretBlink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .cursor.is-text .cursor-core { animation: none; } }
-.spark { position: fixed; top: 0; left: 0; width: 4px; height: 4px; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); animation: sparkFade 0.55s ease-out forwards; }
-@keyframes sparkFade { 0% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); } }
+.spark { position: fixed; top: 0; left: 0; width: 4px; height: 4px; border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate3d(-50%, -50%, 0); animation: sparkFade 0.55s ease-out forwards; will-change: transform, opacity; }
+@keyframes sparkFade { 0% { opacity: 0.85; transform: translate3d(-50%, -50%, 0) scale(1); } 100% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(0.2); } }
 
 /* ---------- Terminal easter egg ---------- */
 .term-trigger {
@@ -382,7 +395,7 @@ html.custom-cursor .cursor { display: block; }
 }
 html.custom-cursor .term-trigger { cursor: none; }
 .term-trigger:hover { transform: translateY(-2px) scale(1.06); border-color: var(--accent); box-shadow: 0 14px 32px -10px rgba(var(--accent-rgb), 0.4); }
-.term-trigger::after { content: ''; position: absolute; inset: -4px; border-radius: 18px; border: 1px solid rgba(var(--accent-rgb), 0.4); opacity: 0.7; animation: termPulse 2.6s ease-in-out infinite; }
+.term-trigger::after { content: ''; position: absolute; inset: -4px; border-radius: 18px; border: 1px solid rgba(var(--accent-rgb), 0.4); opacity: 0.7; animation: termPulse 2.6s ease-in-out infinite; will-change: transform, opacity; }
 @keyframes termPulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.08); opacity: 0.15; } }
 @media (prefers-reduced-motion: reduce) { .term-trigger::after { animation: none; } }
 .term-tooltip {

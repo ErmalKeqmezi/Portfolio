@@ -5,7 +5,10 @@ export default function Background() {
 
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) return;
+    const lowPower = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches;
+    // skip the scroll-parallax listener on reduced-motion and small/touch devices —
+    // those blobs are hidden by CSS there anyway, so tracking their transform is wasted work
+    if (reduceMotion || lowPower) return;
 
     let ticking = false;
     function update() {
@@ -13,7 +16,7 @@ export default function Background() {
       layerRefs.current.forEach((layer) => {
         if (!layer) return;
         const depth = parseFloat(layer.dataset.depth || '0');
-        layer.style.transform = `translateY(${y * depth}px)`;
+        layer.style.transform = `translate3d(0, ${y * depth}px, 0)`;
       });
       ticking = false;
     }

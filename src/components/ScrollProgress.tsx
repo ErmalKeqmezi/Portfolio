@@ -11,8 +11,8 @@ export default function ScrollProgress() {
       const h = document.documentElement;
       const scrollTop = h.scrollTop || document.body.scrollTop;
       const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
-      const pct = height > 0 ? (scrollTop / height) * 100 : 0;
-      bar.style.width = `${pct}%`;
+      const pct = height > 0 ? scrollTop / height : 0;
+      bar.style.transform = `scaleX(${pct})`;
       ticking = false;
     }
     function onScroll() {

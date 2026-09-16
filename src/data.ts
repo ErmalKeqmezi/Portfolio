@@ -5,7 +5,7 @@ export const projects = [
     description:
       'Full-stack e-commerce app with Stripe payments, Cloudinary image uploads, JWT auth, and an admin panel for product management.',
     tags: ['ASP.NET Core 7', 'React', 'TypeScript', 'PostgreSQL'],
-    image: '/projects/bluetech.png',
+    image: '/projects/bluetech.jpg',
     imageAlt: 'BlueTech e-commerce storefront',
     github: '#',
     termLine: 'BlueTech — full-stack e-commerce app (Stripe, Cloudinary, JWT)',
@@ -27,7 +27,7 @@ export const projects = [
     description:
       'ASP.NET Core MVC restaurant ordering system with role-based access (Admin/Manager/Waiter/Bartender) and session-based cart/checkout flow.',
     tags: ['.NET 8', 'EF Core', 'SQLite'],
-    image: '/projects/restaurant.png',
+    image: '/projects/restaurant.jpg',
     imageAlt: 'Restaurant ordering system menu grid',
     github: '#',
     termLine: 'RestaurantAppProject — role-based ordering system, .NET 8',
@@ -51,11 +51,17 @@ export const education = [
   },
 ] as const;
 
-export const skillGroups = [
+export interface SkillGroup {
+  title: string;
+  tags: readonly string[];
+  learning?: boolean;
+}
+
+export const skillGroups: readonly SkillGroup[] = [
   { title: 'Programming', tags: ['Java', 'C#', 'JavaScript', 'Python'] },
   { title: 'Frameworks & Tools', tags: ['.NET MVC', 'React', 'TypeScript', 'PostgreSQL', 'SQLite'] },
   { title: '★ Currently Learning', tags: ['Python', 'Machine Learning'], learning: true },
-] as const;
+];
 
 export const navSections = [
   { id: 'about', label: 'about' },

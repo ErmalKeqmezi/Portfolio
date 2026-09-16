@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { KeyboardEvent as ReactKeyboardEvent, useEffect, useRef, useState } from 'react';
 import { contact, projects } from '../data';
 
 type LineClass = 'out' | 'err' | 'ok' | 'cmd';
@@ -185,7 +185,7 @@ export default function Terminal() {
     triggerRef.current?.focus();
   }
 
-  function handleInputKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+  function handleInputKeyDown(e: ReactKeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') {
       execute(inputValue);
       setInputValue('');

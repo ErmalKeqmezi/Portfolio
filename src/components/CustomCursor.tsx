@@ -93,7 +93,7 @@ export default function CustomCursor() {
       const ease = reduceMQ.matches ? 1 : 0.2;
       cx += (mx - cx) * ease;
       cy += (my - cy) * ease;
-      if (cursor) cursor.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
+      if (cursor) cursor.style.transform = `translate3d(${cx}px,${cy}px,0) translate3d(-50%,-50%,0)`;
       raf = requestAnimationFrame(loop);
     }
 

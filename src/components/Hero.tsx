@@ -48,7 +48,14 @@ export default function Hero() {
         </div>
       </Reveal>
       <Reveal className="photo-frame">
-        <img src="/ermal-photo.webp" alt="Portrait of Ermal Keqmezi" width={600} height={600} />
+        <img
+          src="/ermal-photo.webp"
+          alt="Portrait of Ermal Keqmezi"
+          width={600}
+          height={600}
+          loading="eager"
+          decoding="async"
+        />
       </Reveal>
     </section>
   );
