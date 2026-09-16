@@ -144,7 +144,11 @@ img { max-width: 100%; }
   display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text); flex: none;
 }
 .theme-btn:hover { background: var(--surface-2); }
-.nav-toggle { display: none; width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; flex: none; }
+.nav-toggle {
+  display: none; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface);
+  color: var(--text); cursor: pointer; flex: none;
+}
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -330,7 +334,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
     flex-direction: column; padding: 10px; display: none; gap: 2px;
   }
   .nav-links.open { display: flex; }
-  .nav-toggle { display: block; }
+  .nav-toggle { display: flex; }
 }
 
 /* ---------- Aurora background ---------- */
