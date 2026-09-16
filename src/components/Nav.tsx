@@ -3,10 +3,15 @@ import { navSections } from '../data';
 import { useActiveSection } from '../hooks/useActiveSection';
 import { useTheme } from '../hooks/useTheme';
 
+// computed once at module load, not on every render — passing a fresh array into
+// useActiveSection's effect dependency on every Nav render was tearing down and
+// rebuilding its IntersectionObserver every time the active section changed
+const navSectionIds = navSections.map((s) => s.id);
+
 export default function Nav() {
   const { toggle, isDark } = useTheme();
   const [open, setOpen] = useState(false);
-  const active = useActiveSection(navSections.map((s) => s.id));
+  const active = useActiveSection(navSectionIds);
   const linksRef = useRef<HTMLUListElement>(null);
   const indicatorRef = useRef<HTMLSpanElement>(null);
 

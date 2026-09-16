@@ -91,9 +91,16 @@ export default function CustomCursor() {
 
     function loop() {
       const ease = reduceMQ.matches ? 1 : 0.2;
-      cx += (mx - cx) * ease;
-      cy += (my - cy) * ease;
-      if (cursor) cursor.style.transform = `translate3d(${cx}px,${cy}px,0) translate3d(-50%,-50%,0)`;
+      const dx = mx - cx;
+      const dy = my - cy;
+      // skip the style write entirely once the cursor has settled — otherwise this
+      // writes `transform` (forcing a style recalc/paint) every frame forever, even
+      // while the mouse is sitting perfectly still
+      if (Math.abs(dx) > 0.05 || Math.abs(dy) > 0.05) {
+        cx += dx * ease;
+        cy += dy * ease;
+        if (cursor) cursor.style.transform = `translate3d(${cx}px,${cy}px,0) translate3d(-50%,-50%,0)`;
+      }
       raf = requestAnimationFrame(loop);
     }
 

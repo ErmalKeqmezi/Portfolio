@@ -69,6 +69,14 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+/* toggled by a visibilitychange listener in App.tsx — no reason to keep animating
+   the ambient background while the tab is in the background */
+html.tab-hidden .aurora-blob,
+html.tab-hidden .float-shape,
+html.tab-hidden .photo-frame::before,
+html.tab-hidden .term-trigger::after {
+  animation-play-state: paused;
+}
 body {
   margin: 0;
   background: var(--bg);
@@ -101,8 +109,11 @@ img { max-width: 100%; }
 /* ---------- Nav ---------- */
 .nav {
   position: sticky; top: 0; z-index: 50;
-  background: color-mix(in srgb, var(--bg) 86%, transparent);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  /* no backdrop-filter here on purpose: it's a sticky element, so the browser would
+     have to re-blur whatever scrolls behind it on every single scroll frame — a
+     well-known scroll-jank cause. A near-opaque background gets a similar look
+     for a fraction of the cost. */
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
   border-bottom: 1px solid var(--border);
   margin-inline: -20px; padding-inline: 20px;
 }
@@ -340,8 +351,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 }
 
 .noise-overlay {
+  /* no mix-blend-mode: it sits above the continuously-animating aurora blobs, so a
+     blend mode other than "normal" forces the browser to recomposite the blended
+     result every single animation frame, forever, even with no user interaction.
+     Plain opacity over a static texture is nearly free by comparison. */
   position: fixed; inset: 0; pointer-events: none; z-index: -2;
-  opacity: var(--noise-opacity); mix-blend-mode: overlay;
+  opacity: var(--noise-opacity);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 

@@ -19,6 +19,18 @@ export default function App() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  // pause the ambient background animations (aurora/floaters/pulses) while the
+  // tab is backgrounded — they'd otherwise keep animating (and costing GPU/battery)
+  // with nobody looking at them
+  useEffect(() => {
+    function syncVisibility() {
+      document.documentElement.classList.toggle('tab-hidden', document.hidden);
+    }
+    syncVisibility();
+    document.addEventListener('visibilitychange', syncVisibility);
+    return () => document.removeEventListener('visibilitychange', syncVisibility);
+  }, []);
+
   return (
     <>
       <Background />
