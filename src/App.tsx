@@ -48,6 +48,7 @@ export default function App() {
         <Skills />
         <Contact />
         <Footer />
+        <div id="scroll-end-sentinel" aria-hidden="true" style={{ height: 1 }} />
       </main>
 
       <Terminal />
