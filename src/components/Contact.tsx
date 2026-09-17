@@ -84,7 +84,7 @@ export default function Contact() {
             </span>
           </a>
           <p className="mono" style={{ fontSize: 12.5, color: 'var(--text-faint)', marginTop: 4 }}>
-            Languages: Albanian (Native) · English (B2)
+            Languages: Albanian (Native) · English (C1)
           </p>
         </Reveal>
       </div>
