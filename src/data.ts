@@ -7,7 +7,7 @@ export const projects = [
     tags: ['ASP.NET Core 7', 'React', 'TypeScript', 'PostgreSQL'],
     image: '/projects/bluetech.jpg',
     imageAlt: 'BlueTech e-commerce storefront',
-    github: '#',
+    github: 'https://github.com/ErmalKeqmezi/BlueTech',
     termLine: 'BlueTech — full-stack e-commerce app (Stripe, Cloudinary, JWT)',
   },
   {
@@ -18,7 +18,7 @@ export const projects = [
     tags: ['Python', 'ChromaDB', 'Claude API'],
     image: '/projects/ai-assistant.png',
     imageAlt: 'AI Assistant chat interface with uploaded documents',
-    github: '#',
+    github: 'https://github.com/ErmalKeqmezi/AI-Assistant',
     termLine: 'AI Assistant — RAG assistant over ingested documents (Claude API)',
   },
   {
@@ -29,7 +29,7 @@ export const projects = [
     tags: ['.NET 8', 'EF Core', 'SQLite'],
     image: '/projects/restaurant.jpg',
     imageAlt: 'Restaurant ordering system menu grid',
-    github: '#',
+    github: 'https://github.com/ErmalKeqmezi/RestaurantAppProject',
     termLine: 'RestaurantAppProject — role-based ordering system, .NET 8',
   },
 ] as const;

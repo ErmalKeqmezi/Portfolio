@@ -23,7 +23,7 @@ export default function Projects() {
                 ))}
               </div>
               <div className="proj-links">
-                <a href={p.github}>GitHub →</a>
+                <a href={p.github} target="_blank" rel="noopener">GitHub →</a>
               </div>
             </div>
           </Reveal>
