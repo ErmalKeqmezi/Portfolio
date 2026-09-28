@@ -10,7 +10,11 @@ export default function Projects() {
         {projects.map((p) => (
           <Reveal as="article" key={p.id} id={p.id} className="proj-card" data-cursor="">
             <div className="proj-thumb">
-              <img src={p.image} alt={p.imageAlt} loading="lazy" decoding="async" width={960} height={540} />
+              {p.image ? (
+                <img src={p.image} alt={p.imageAlt} loading="lazy" decoding="async" width={960} height={540} />
+              ) : (
+                <span className="proj-thumb-placeholder mono">[ screenshot coming soon ]</span>
+              )}
             </div>
             <div className="proj-body">
               <h3>{p.name}</h3>

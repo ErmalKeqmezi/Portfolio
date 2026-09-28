@@ -22,15 +22,15 @@ export const projects = [
     termLine: 'AI Assistant — RAG assistant over ingested documents (Claude API)',
   },
   {
-    id: 'proj-restaurant',
-    name: 'RestaurantAppProject',
+    id: 'proj-ai-tool-calling-agent',
+    name: 'AI Tool-Calling Agent',
     description:
-      'ASP.NET Core MVC restaurant ordering system with role-based access (Admin/Manager/Waiter/Bartender) and session-based cart/checkout flow.',
-    tags: ['.NET 8', 'EF Core', 'SQLite'],
-    image: '/projects/restaurant.jpg',
-    imageAlt: 'Restaurant ordering system menu grid',
-    github: 'https://github.com/ErmalKeqmezi/RestaurantAppProject',
-    termLine: 'RestaurantAppProject — role-based ordering system, .NET 8',
+      "An autonomous AI assistant built on Anthropic's Claude API that independently decides when to invoke tools, executes them in Python, and iterates until it can answer the query — with permission gates for write operations and short-term conversational memory.",
+    tags: ['Python', 'Claude API', 'FastAPI', 'Streamlit'],
+    image: '/projects/ai-tool-calling-agent.png',
+    imageAlt: 'AI Tool Agent web UI showing available tools and example prompts',
+    github: 'https://github.com/ErmalKeqmezi/AI-Tool-Calling-Agent',
+    termLine: 'AI Tool-Calling Agent — autonomous tool-calling assistant on Claude API',
   },
 ] as const;
 
