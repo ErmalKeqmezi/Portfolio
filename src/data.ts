@@ -1,14 +1,14 @@
 export const projects = [
   {
-    id: 'proj-bluetech',
-    name: 'BlueTech',
+    id: 'proj-fittrack',
+    name: 'FitTrack',
     description:
-      'Full-stack e-commerce app with Stripe payments, Cloudinary image uploads, JWT auth, and an admin panel for product management.',
-    tags: ['ASP.NET Core 7', 'React', 'TypeScript', 'PostgreSQL'],
-    image: '/projects/bluetech.jpg',
-    imageAlt: 'BlueTech e-commerce storefront',
-    github: 'https://github.com/ErmalKeqmezi/BlueTech',
-    termLine: 'BlueTech — full-stack e-commerce app (Stripe, Cloudinary, JWT)',
+      'Private gym journal PWA for logging workouts, following training plans, and tracking strength progression, personal records and body metrics — with Supabase auth and row-level security.',
+    tags: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind CSS'],
+    image: '/projects/fittrack.webp',
+    imageAlt: 'FitTrack dashboard with weekly activity chart, today\'s workout and personal records',
+    github: 'https://github.com/ErmalKeqmezi/fittrack',
+    termLine: 'FitTrack — gym journal PWA (Next.js, Supabase, Recharts)',
   },
   {
     id: 'proj-ai-assistant',
