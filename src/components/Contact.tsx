@@ -3,19 +3,43 @@ import { contact } from '../data';
 import Reveal from './Reveal';
 import SectionHead from './SectionHead';
 
-export default function Contact() {
-  const [sent, setSent] = useState(false);
+type Status = 'idle' | 'sending' | 'sent' | 'error';
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+export default function Contact() {
+  const [status, setStatus] = useState<Status>('idle');
+
+  // Netlify Forms: the matching static form lives in index.html so Netlify's
+  // build-time scanner can register it (this one is rendered client-side)
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSent(true);
+    const form = e.currentTarget;
+    setStatus('sending');
+    try {
+      const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString();
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+      });
+      if (!res.ok) throw new Error(`Form submit failed: ${res.status}`);
+      form.reset();
+      setStatus('sent');
+    } catch {
+      setStatus('error');
+    }
   }
 
   return (
     <section id="contact">
       <SectionHead num="06" title="Contact" />
       <div className="contact-grid">
-        <Reveal as="form" onSubmit={handleSubmit}>
+        <Reveal as="form" name="contact" method="POST" onSubmit={handleSubmit}>
+          <input type="hidden" name="form-name" value="contact" />
+          <p hidden>
+            <label>
+              Don’t fill this out: <input name="bot-field" tabIndex={-1} autoComplete="off" />
+            </label>
+          </p>
           <div className="field">
             <label htmlFor="c-name">Name</label>
             <input id="c-name" name="name" type="text" placeholder="Your name" required />
@@ -28,14 +52,31 @@ export default function Contact() {
             <label htmlFor="c-msg">Message</label>
             <textarea id="c-msg" name="message" rows={5} placeholder="What are you reaching out about?" required />
           </div>
-          <button type="submit" className="btn btn-primary" data-cursor="" data-cursor-label="Click">
-            Send Message
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={status === 'sending'}
+            data-cursor=""
+            data-cursor-label="Click"
+          >
+            {status === 'sending' ? 'Sending…' : 'Send Message'}
           </button>
-          {sent && (
-            <p className="mono" style={{ marginTop: 12, color: 'var(--ok)', fontSize: 13 }}>
-              ✓ Message sent — thanks for reaching out!
-            </p>
-          )}
+          <div aria-live="polite">
+            {status === 'sent' && (
+              <p className="mono" style={{ marginTop: 12, color: 'var(--ok)', fontSize: 13 }}>
+                ✓ Message sent — thanks for reaching out!
+              </p>
+            )}
+            {status === 'error' && (
+              <p className="mono" style={{ marginTop: 12, color: '#ff6b6b', fontSize: 13 }}>
+                Couldn’t send that. Please email me directly at{' '}
+                <a href={`mailto:${contact.email}`} style={{ textDecoration: 'underline' }}>
+                  {contact.email}
+                </a>
+                .
+              </p>
+            )}
+          </div>
         </Reveal>
         <Reveal className="contact-info">
           <a className="info-row" href={`mailto:${contact.email}`} data-cursor="" data-cursor-label="Open">
@@ -72,7 +113,7 @@ export default function Contact() {
               {contact.github}
             </span>
           </a>
-          <a className="info-row" href={contact.resumeUrl} target="_blank" rel="noopener" data-cursor="" data-cursor-label="Open">
+          <a className="info-row" href={contact.resumeUrl} download="Ermal-Keqmezi-CV.pdf" data-cursor="" data-cursor-label="Download">
             <span className="info-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />

@@ -20,6 +20,14 @@
     />
   </head>
   <body>
+    <!-- Netlify Forms registration: Netlify scans static HTML at deploy time, and the real
+         form is rendered by React (src/components/Contact.tsx), so it needs this stub. -->
+    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+      <input type="text" name="bot-field" />
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
